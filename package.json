@@ -19,6 +19,8 @@
     "node": ">= 0.10"
   },
   "dependencies": {
-    "promised-models": "0.0.4"
+    "browserify": "^10.2.1",
+    "literalify": "^0.4.0",
+    "promised-models": "0.0.5"
   }
 }
