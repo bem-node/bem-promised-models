@@ -4,5 +4,6 @@ exports.blocks = [
     {block: 'i-bem-node'}, //bem-node api
 
     // pages
+    {block: 'promised-models'},
     {block: 'test'}
 ];

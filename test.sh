@@ -12,5 +12,6 @@ function checkfail {
 }
 
 killall node 2>/dev/null
+node lib/browserify.js
 $BEMNODE & $PHANTOM
 checkfail $?

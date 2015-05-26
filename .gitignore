@@ -1,6 +1,7 @@
 node_modules
 .DS_Store
 npm-debug.log
-blocks/promised-models/promised-models.js
+blocks/promised-models/__model/promised-models__model.js
+.bem/tmp
 test.app/*/*
 !test.app/*/*.bemdecl.js
