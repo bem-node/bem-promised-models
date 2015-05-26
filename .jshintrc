@@ -19,7 +19,7 @@
 
     // Custom globals.
     "predef"        : [
-        "describe", "it", "before", "beforeEach", "after", "afterEach"
+        "describe", "it", "before", "beforeEach", "after", "afterEach", "BEM", "BN"
     ],
 
 

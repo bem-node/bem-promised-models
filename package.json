@@ -18,9 +18,21 @@
   "engines": {
     "node": ">= 0.10"
   },
+  "scripts": {
+    "test": "./test.sh"
+  },
   "dependencies": {
     "browserify": "^10.2.1",
     "literalify": "^0.4.0",
     "promised-models": "0.0.5"
+  },
+  "devDependencies": {
+    "bem-node": "0.9.6",
+    "chai": "^2.3.0",
+    "enb": "0.8.48",
+    "enb-bemhtml": "0.2.1",
+    "mocha": "^2.2.5",
+    "mocha-phantomjs": "^3.5.3",
+    "phantomjs": "^1.9.17"
   }
 }
