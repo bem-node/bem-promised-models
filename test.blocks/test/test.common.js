@@ -193,8 +193,8 @@ BN.addDecl('test', 'page', {
             });
 
             describe('storage', function () {
-                it('should be able to declare via Model.decl', function () {
-                    var id = jQuery.identify();
+                var id = jQuery.identify();
+                beforeEach(function () {
                     BEM.Model.decl('model', {
                         storage: {
                             insert: function () {
@@ -202,9 +202,24 @@ BN.addDecl('test', 'page', {
                             }
                         }
                     });
+                });
+                it('should be able to declare via Model.decl', function () {
                     var model = BEM.blocks['model'].create();
                     return model.save().then(function () {
                         expect(model.id).to.be.equal(id);
+                    });
+                });
+                it('should be inherited from prev decls', function () {
+                    BEM.Model.decl('model', {
+                        storage: {
+                            insert: function () {
+                                return this.__base() + id;
+                            }
+                        }
+                    });
+                    var model = BEM.blocks['model'].create();
+                    return model.save().then(function () {
+                        expect(model.id).to.be.equal(id + id);
                     });
                 });
             });
