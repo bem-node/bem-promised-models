@@ -19,7 +19,8 @@
     "node": ">= 0.10"
   },
   "scripts": {
-    "test": "./test.sh"
+    "test": "./test.sh",
+    "start": "node test.app/app/app.server.js --socket 3000"
   },
   "dependencies": {
     "browserify": "^10.2.1",
