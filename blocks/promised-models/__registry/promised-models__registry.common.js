@@ -18,12 +18,20 @@
             this.attributes = Object.keys(this.attributes || {}).reduce(function (attributes, attributeName) {
                 var attributeDecl = model.attributes[attributeName],
                     type = attributeDecl.type,
+                    modelType = attributeDecl.modelType,
                     attributeClass;
                 if (attributeDecl instanceof Model.Attribute) {
+                    //class
                     attributeClass = attributeDecl;
+                } else if (type === 'Model' || type === 'ModelsList') {
+                    //nested type
+                    attributeDecl.modelType = Model.attributeTypes[modelType] || BEM.blocks[modelType];
+                    attributeClass = Model.attributeTypes[type].inherit(attributeDecl);
                 } else if (Model.attributeTypes[type]) {
+                    //common types
                     attributeClass = Model.attributeTypes[type].inherit(attributeDecl);
                 } else if (BEM.blocks[type]) {
+                    //custom type
                     attributeClass = BEM.blocks[type].inherit(attributeDecl);
                 } else {
                     throw new Error('Unknown attribute type:' + type);
@@ -67,7 +75,11 @@
          * @return {BEM.Model}
          */
         BEM.blocks[blockName].create = function (id, data) {
-            return new BEM.blocks[blockName](id, data);
+            if (arguments.length === 1) {
+                return new BEM.blocks[blockName](id);
+            } else {
+                return new BEM.blocks[blockName](id, data);
+            }
         };
     };
 }(BEM.Model));
