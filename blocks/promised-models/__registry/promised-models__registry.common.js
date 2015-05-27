@@ -39,8 +39,21 @@
                 attributes[attributeName] = attributeClass;
                 return attributes;
             }, {});
+            this.cid = jQuery.identify();
             this.__base.apply(this, arguments);
-        }
+        },
+
+        /**
+         * @override
+         */
+        destruct: function () {
+            var list = Model.getList(),
+                index = list.indexOf(this);
+            if (index !== -1) {
+                list.splice(index, 1);
+            }
+            this.__base.apply(this, arguments);
+        },
 
     }, {
         /**
@@ -85,21 +98,32 @@
      * @param  {Object} [staticProps]
      */
     Model.decl = function (blockName, baseBlock, props, staticProps) {
-        var baseClass = DeclarativeModel;
+        var baseClass,
+            baseStorageClass;
+
         if (typeof baseBlock !== 'string') {
             staticProps = props;
             props = baseBlock;
             baseBlock = null;
         }
+
         props = props || {};
+
         if (BEM.blocks[blockName]) {
             baseClass = BEM.blocks[blockName];
         } else if (baseBlock) {
             baseClass = BEM.blocks[baseBlock];
+        } else {
+            baseClass = DeclarativeModel;
+        }
+
+        baseStorageClass = baseClass.prototype.storage || Model.Storage;
+
+        if (props.storage && !(props.storage instanceof Model.Storage)) {
+            props.storage = baseStorageClass.inherit(props.storage);
         }
 
         BEM.blocks[blockName] = baseClass.inherit(props, staticProps).inherit({
-            cid: jQuery.identify(),
             blockName: blockName,
             attributes: jQuery.extend({}, baseClass.prototype.attributes || {}, props.attributes || {})
         });

@@ -174,9 +174,38 @@ BN.addDecl('test', 'page', {
                 });
                 it('should return model by cid', function () {
                     var model1 = BEM.blocks['model'].create(),
-                        model2 = BEM.blocks['other-model'].create();
+                        model2 = BEM.blocks['other-model'].create(),
+                        model3 = BEM.blocks['other-model'].create();
                     expect(BEM.Model.getOne(model1.cid)).to.be.equal(model1);
                     expect(BEM.Model.getOne(model2.cid)).to.be.equal(model2);
+                    expect(BEM.Model.getOne(model3.cid)).to.be.equal(model3);
+                });
+            });
+
+            describe('destruct', function () {
+                it('should remove model from registry', function () {
+                    var model1 = BEM.blocks['model'].create(),
+                        model2 = BEM.blocks['model'].create();
+                    model1.destruct();
+                    expect(BEM.Model.getOne(model1.cid)).to.be.a('undefined');
+                    expect(BEM.Model.getOne(model2.cid)).to.be.equal(model2);
+                });
+            });
+
+            describe('storage', function () {
+                it('should be able to declare via Model.decl', function () {
+                    var id = jQuery.identify();
+                    BEM.Model.decl('model', {
+                        storage: {
+                            insert: function () {
+                                return id;
+                            }
+                        }
+                    });
+                    var model = BEM.blocks['model'].create();
+                    return model.save().then(function () {
+                        expect(model.id).to.be.equal(id);
+                    });
                 });
             });
         });

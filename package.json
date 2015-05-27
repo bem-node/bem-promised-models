@@ -26,7 +26,7 @@
   "dependencies": {
     "browserify": "^10.2.1",
     "literalify": "^0.4.0",
-    "promised-models": "0.0.5"
+    "promised-models": "0.0.6"
   },
   "devDependencies": {
     "bem-node": "0.9.6",
