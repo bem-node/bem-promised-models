@@ -55,6 +55,7 @@ BN.addDecl('test', 'page', {
             beforeEach(function () {
                 delete BEM.blocks['model'];
                 delete BEM.blocks['extended-model'];
+                delete BEM.blocks['other-model'];
                 BEM.Model.decl('model', {
                     attributes: {
                         a: {
@@ -71,7 +72,7 @@ BN.addDecl('test', 'page', {
                         }
                     }
                 });
-
+                BEM.Model.decl('other-model', 'model');
             });
             describe('decl', function () {
                 it('should add model class to BEM.blocks', function () {
@@ -161,6 +162,21 @@ BN.addDecl('test', 'page', {
                         a: 'a1'
                     });
                     expect(model.get('a')).to.be.equal('a1');
+                });
+            });
+
+            describe('getOne', function () {
+                it('should return first instance of model of current type', function () {
+                    var model1 = BEM.blocks['model'].create(),
+                        model2 = BEM.blocks['other-model'].create();
+                    expect(BEM.blocks['model'].getOne()).to.be.equal(model1);
+                    expect(BEM.blocks['other-model'].getOne()).to.be.equal(model2);
+                });
+                it('should return model by cid', function () {
+                    var model1 = BEM.blocks['model'].create(),
+                        model2 = BEM.blocks['other-model'].create();
+                    expect(BEM.Model.getOne(model1.cid)).to.be.equal(model1);
+                    expect(BEM.Model.getOne(model2.cid)).to.be.equal(model2);
                 });
             });
         });

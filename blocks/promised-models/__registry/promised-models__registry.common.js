@@ -42,6 +42,39 @@
             this.__base.apply(this, arguments);
         }
 
+    }, {
+        /**
+         * get model of current class
+         * @param  {Model.cid} cid
+         * @return {Model}
+         */
+        getOne: function (cid) {
+            var modelClass = this;
+            if (arguments.length === 0) {
+                return Model.getList().filter(function (instance) {
+                    return instance instanceof modelClass;
+                })[0];
+            } else {
+                return Model.getOne(cid);
+            }
+        },
+
+        /**
+         * create model instance
+         * @param  {string|number} [id]
+         * @param  {object} [data]
+         * @return {BEM.Model}
+         */
+        create: function (id, data) {
+            var instance;
+            if (arguments.length === 1) {
+                instance =  new this(id);
+            } else {
+                instance =  new this(id, data);
+            }
+            Model.getList().push(instance);
+            return instance;
+        }
     });
 
     /**
@@ -58,6 +91,7 @@
             props = baseBlock;
             baseBlock = null;
         }
+        props = props || {};
         if (BEM.blocks[blockName]) {
             baseClass = BEM.blocks[blockName];
         } else if (baseBlock) {
@@ -65,21 +99,37 @@
         }
 
         BEM.blocks[blockName] = baseClass.inherit(props, staticProps).inherit({
-            attributes: jQuery.extend({}, baseClass.prototype.attributes || {}, props.attributes)
+            cid: jQuery.identify(),
+            blockName: blockName,
+            attributes: jQuery.extend({}, baseClass.prototype.attributes || {}, props.attributes || {})
         });
 
-        /**
-         * create model instance
-         * @param  {string|number} [id]
-         * @param  {object} [data]
-         * @return {BEM.Model}
-         */
-        BEM.blocks[blockName].create = function (id, data) {
-            if (arguments.length === 1) {
-                return new BEM.blocks[blockName](id);
-            } else {
-                return new BEM.blocks[blockName](id, data);
-            }
-        };
+    };
+
+    /**
+     * get model instance
+     * @param  {Model.cid} cid
+     * @return {Model}
+     */
+    Model.getOne = function (cid) {
+        if (arguments.length === 0) {
+            return this.getList()[0];
+        } else {
+            return this.getList().filter(function (instance) {
+                return instance.cid === cid;
+            })[0];
+        }
+    };
+
+    /**
+     * get storage for model instances
+     * @return {Array} [description]
+     */
+    Model.getList = function () {
+        if (!this._state) {
+            this._state = BEM.blocks['i-state'].initNs('Promised-models');
+            this._state.set('list', []);
+        }
+        return this._state.get().list;
     };
 }(BEM.Model));
