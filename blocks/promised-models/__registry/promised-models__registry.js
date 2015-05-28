@@ -170,13 +170,10 @@
 
     /**
      * get storage for model instances
-     * @return {Array} [description]
+     * @abstract
+     * @return {Array}
      */
     Model.getList = function () {
-        if (!this._state) {
-            this._state = BEM.blocks['i-state'].initNs('Promised-models');
-            this._state.set('list', []);
-        }
-        return this._state.get().list;
+        throw new Error('not implemented');
     };
 }(BEM.Model));
