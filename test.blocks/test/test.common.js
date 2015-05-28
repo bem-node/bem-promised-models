@@ -53,10 +53,15 @@ BN.addDecl('test', 'page', {
     test: function (expect) {
         describe('BEM.Model', function () {
             beforeEach(function () {
-                delete BEM.blocks['model'];
-                delete BEM.blocks['extended-model'];
-                delete BEM.blocks['other-model'];
                 BEM.Model.decl('model', {
+                    attributes: {
+                        a: {
+                            type: 'String',
+                            default: 'a'
+                        }
+                    }
+                });
+                BEM.Model.decl('other-model', {
                     attributes: {
                         a: {
                             type: 'String',
@@ -72,7 +77,17 @@ BN.addDecl('test', 'page', {
                         }
                     }
                 });
-                BEM.Model.decl('other-model', 'model');
+                BEM.Model.decl('inerited-model', 'model');
+            });
+            afterEach(function () {
+                BEM.Model.getList().slice(0).forEach(function (model) {
+                    model.destruct();
+                });
+                delete BEM.blocks['model'];
+                delete BEM.blocks['extended-model'];
+                delete BEM.blocks['inerited-model'];
+                delete BEM.blocks['other-model'];
+
             });
             describe('decl', function () {
                 it('should add model class to BEM.blocks', function () {
@@ -168,14 +183,14 @@ BN.addDecl('test', 'page', {
             describe('getOne', function () {
                 it('should return first instance of model of current type', function () {
                     var model1 = BEM.blocks['model'].create(),
-                        model2 = BEM.blocks['other-model'].create();
+                        model2 = BEM.blocks['inerited-model'].create();
                     expect(BEM.blocks['model'].getOne()).to.be.equal(model1);
-                    expect(BEM.blocks['other-model'].getOne()).to.be.equal(model2);
+                    expect(BEM.blocks['inerited-model'].getOne()).to.be.equal(model2);
                 });
                 it('should return model by cid', function () {
                     var model1 = BEM.blocks['model'].create(),
-                        model2 = BEM.blocks['other-model'].create(),
-                        model3 = BEM.blocks['other-model'].create();
+                        model2 = BEM.blocks['inerited-model'].create(),
+                        model3 = BEM.blocks['inerited-model'].create();
                     expect(BEM.Model.getOne(model1.cid)).to.be.equal(model1);
                     expect(BEM.Model.getOne(model2.cid)).to.be.equal(model2);
                     expect(BEM.Model.getOne(model3.cid)).to.be.equal(model3);
@@ -223,6 +238,36 @@ BN.addDecl('test', 'page', {
                     });
                 });
             });
+
+            describe('getAny', function () {
+                var id1 = jQuery.identify(),
+                    id2 = jQuery.identify();
+                it('should return instance of model', function () {
+                    var model1 = BEM.blocks['model'].getAny();
+                    expect(model1).to.be.instanceof(BEM.blocks['model']);
+                });
+                it('should create instance of model if no instance avaiable', function () {
+                    var model1 = BEM.blocks['model'].getAny(),
+                        model2 = BEM.blocks['model'].getAny();
+                    expect(model1).to.be.equal(model2);
+                });
+                it('should get instance storage id or create with this id', function () {
+                    var model1 = BEM.blocks['model'].getAny(id1),
+                        model2 = BEM.blocks['model'].getAny(id2),
+                        model11 = BEM.blocks['model'].getAny(id1),
+                        model22 = BEM.blocks['model'].getAny(id2);
+
+                    expect(model1).to.be.equal(model11);
+                    expect(model2).to.be.equal(model22);
+                    expect(model1).to.be.not.equal(model2);
+                });
+                it('should return instance of give class', function () {
+                    var model1 = BEM.blocks['model'].getAny(id1),
+                        model2 = BEM.blocks['other-model'].getAny(id1);
+                    expect(model1).to.be.not.equal(model2);
+                });
+            });
+
         });
     }
 }).blockTemplate(function (ctx) {

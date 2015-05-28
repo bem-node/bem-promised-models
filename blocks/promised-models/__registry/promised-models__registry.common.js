@@ -57,7 +57,7 @@
 
     }, {
         /**
-         * get model of current class
+         * get model of current class by client id
          * @param  {Model.cid} cid
          * @return {Model}
          */
@@ -70,6 +70,29 @@
             } else {
                 return Model.getOne(cid);
             }
+        },
+
+        /**
+         * get or create instance with storage id
+         * @param  {Model.id} [id]
+         * @return {Model}
+         */
+        getAny: function (id) {
+            var instance, model = this;
+            if (arguments.length === 0) {
+                instance = this.getOne();
+                if (!instance) {
+                    instance = this.create();
+                }
+            } else {
+                instance = Model.getList().filter(function (instance) {
+                    return (instance.id === id) && (instance instanceof model);
+                })[0];
+                if (!instance) {
+                    instance = this.create(id);
+                }
+            }
+            return instance;
         },
 
         /**
