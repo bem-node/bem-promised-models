@@ -268,6 +268,15 @@ BN.addDecl('test', 'page', {
                 });
             });
 
+            describe('server storage', function () {
+                var name;
+                it(name = 'should store models for request separatly', function () {
+                    return BEM.blocks['test-server'].test(name).then(function () {
+                        BEM.blocks['test-server'].test(name);
+                    });
+                });
+            });
+
         });
     }
 }).blockTemplate(function (ctx) {
