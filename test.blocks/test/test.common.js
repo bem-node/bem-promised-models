@@ -136,15 +136,33 @@ BN.addDecl('test', 'page', {
                             }
                         }
                     });
-                    var model = BEM.blocks['model'].create({
-                        a: {
-                            a: 'a-0'
+                    var data = {
+                            a: {
+                                a: 'a-0'
+                            },
+                            nested: {
+                                a: 'a-1'
+                            }
                         },
-                        nested: {
-                            a: 'a-1'
+                        model1 = BEM.blocks['model'].create(data),
+                        model2 = BEM.blocks['model'].create(data);
+                    expect(model1.get('nested').get('a')).to.be.equal('a-1');
+                    expect(model2.get('nested').get('a')).to.be.equal('a-1');
+                });
+
+                it('should throw error when modelType is unknown', function () {
+                    BEM.Model.decl('model', {
+                        attributes: {
+                            nested: {
+                                type: 'Model',
+                                modelType: 'unknown-model'
+                            }
                         }
                     });
-                    expect(model.get('nested').get('a')).to.be.equal('a-1');
+                    var model;
+                    expect(function () {
+                        model = BEM.blocks['model'].create();
+                    }).to.throw(/unknown attribute/i);
                 });
 
                 it('should decl collections', function () {

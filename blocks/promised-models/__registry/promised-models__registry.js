@@ -24,9 +24,13 @@
                     //class
                     attributeClass = attributeDecl;
                 } else if (type === 'Model' || type === 'ModelsList') {
+                    if (!BEM.blocks[modelType]) {
+                        throw new Error('Unknown attribute modelType:' + modelType);
+                    }
                     //nested type
-                    attributeDecl.modelType = Model.attributeTypes[modelType] || BEM.blocks[modelType];
-                    attributeClass = Model.attributeTypes[type].inherit(attributeDecl);
+                    attributeClass = Model.attributeTypes[type].inherit(attributeDecl).inherit({
+                        modelType: BEM.blocks[modelType]
+                    });
                 } else if (Model.attributeTypes[type]) {
                     //common types
                     attributeClass = Model.attributeTypes[type].inherit(attributeDecl);
