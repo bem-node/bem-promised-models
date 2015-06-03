@@ -22,7 +22,7 @@ Add deps for promised-models
 ```
 ({
     mustDeps: [
-        {block: 'promised-models'}
+        {block: 'promised-models', elems: ['model', 'registry', 'registry-storage']}
     ]
 })
 ```

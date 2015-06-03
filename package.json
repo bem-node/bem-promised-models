@@ -1,7 +1,7 @@
 {
   "description": "BEM wrapper for promised-models",
   "name": "bem-promised-models",
-  "version": "0.0.2",
+  "version": "0.0.6",
   "repository": "git@github.com:delfrrr/bem-promised-models.git",
   "keywords": [
     "BEM",
@@ -19,6 +19,9 @@
   "engines": {
     "node": ">= 0.10"
   },
+  "files": [
+    "blocks/promised-models/"
+  ],
   "scripts": {
     "prepublish": "node lib/browserify.js",
     "test": "./test.sh",
