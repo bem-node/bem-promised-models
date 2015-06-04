@@ -213,6 +213,21 @@ BN.addDecl('test', 'page', {
                     expect(BEM.Model.getOne(model2.cid)).to.be.equal(model2);
                     expect(BEM.Model.getOne(model3.cid)).to.be.equal(model3);
                 });
+                it('should get from storage nested models', function () {
+                    BEM.Model.decl('model', {
+                        attributes: {
+                            collection: {
+                                type: 'ModelsList',
+                                modelType: 'nested-model'
+                            }
+                        }
+                    });
+                    var model = BEM.blocks['model'].create({
+                        collection: [{a: 'a-2'}]
+                    }),
+                    nested = model.get('collection').get(0);
+                    expect(BEM.blocks['nested-model'].getOne(nested.cid)).to.be.equal(nested);
+                });
             });
 
             describe('destruct', function () {

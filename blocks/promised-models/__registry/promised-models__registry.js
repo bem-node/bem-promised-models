@@ -44,6 +44,7 @@
                 return attributes;
             }, {});
             this.cid = jQuery.identify();
+            Model.getList().push(this);
             this.__base.apply(this, arguments);
         },
 
@@ -112,7 +113,6 @@
             } else {
                 instance =  new this(id, data);
             }
-            Model.getList().push(instance);
             return instance;
         }
     });
