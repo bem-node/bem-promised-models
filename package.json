@@ -1,7 +1,7 @@
 {
   "description": "BEM wrapper for promised-models",
   "name": "bem-promised-models",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "repository": "git@github.com:delfrrr/bem-promised-models.git",
   "keywords": [
     "BEM",
@@ -28,7 +28,7 @@
     "start": "node test.app/app/app.server.js --socket 3000"
   },
   "dependencies": {
-    "promised-models": "0.0.9"
+    "promised-models": "0.0.10"
   },
   "devDependencies": {
     "browserify": "10.2.1",
