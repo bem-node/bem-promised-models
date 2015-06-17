@@ -308,6 +308,15 @@ BN.addDecl('test', 'page', {
                         BEM.blocks['test-server'].test(name);
                     });
                 });
+
+                it(name = 'should end calculation', function (done) {
+                    BEM.blocks['test-server'].test(name).then(function (res) {
+                        expect(Number(res.calcCount) < 100).to.be.equal(true);
+                        done();
+                    }).fail(function (err) {
+                        done(err);
+                    }).done();
+                });
             });
 
         });
