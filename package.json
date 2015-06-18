@@ -1,7 +1,7 @@
 {
   "description": "BEM wrapper for promised-models",
   "name": "bem-promised-models",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "repository": "git@github.com:delfrrr/bem-promised-models.git",
   "keywords": [
     "BEM",
@@ -23,12 +23,12 @@
     "blocks/promised-models/"
   ],
   "scripts": {
-    "prepublish": "node lib/browserify.js",
+    "prepublish": "npm install promised-models ; node lib/browserify.js",
     "test": "./test.sh",
     "start": "node test.app/app/app.server.js --socket 3000"
   },
   "dependencies": {
-    "promised-models": "0.0.15"
+    "promised-models": "0.0.16"
   },
   "devDependencies": {
     "browserify": "10.2.1",
