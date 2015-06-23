@@ -28,7 +28,7 @@
     "start": "node test.app/app/app.server.js --socket 3000"
   },
   "dependencies": {
-    "promised-models": "0.0.16"
+    "promised-models": "0.0.17"
   },
   "devDependencies": {
     "browserify": "10.2.1",

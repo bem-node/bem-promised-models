@@ -305,8 +305,12 @@ BN.addDecl('test', 'page', {
                 var name;
                 it(name = 'should store models for request separatly', function () {
                     return BEM.blocks['test-server'].test(name).then(function () {
-                        BEM.blocks['test-server'].test(name);
+                        return BEM.blocks['test-server'].test(name);
                     });
+                });
+
+                it(name = 'should end calculation', function () {
+                    return BEM.blocks['test-server'].test(name);
                 });
             });
 
