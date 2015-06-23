@@ -103,7 +103,7 @@ BEM.Model.decl('podium', {
 });
 ```
 
-### Pass models by client id (for broser render only)
+### Pass models by client id (for browser render only)
 
 ```
 //bh template
@@ -158,7 +158,7 @@ BEM.Model.decl('fashion-model', {
 
 #### `.decl(modelName, [baseModel], [properties], [staticProperties])`
 
-Adds model declaration
+Add model declaration
 
 #### `.getOne([cid])`
 
@@ -176,7 +176,7 @@ Get model instance of current class by client id `model.cid`
 
 #### `.getAny([id])`
 
-Get model instance by storage id `model.id`. If no instance with `id` was found, creates new one.
+Get model instance by storage id `model.id`. If no instance with `id` was found, create new one.
 
 
 ### model instance
