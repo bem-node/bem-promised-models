@@ -18,8 +18,8 @@ BEM.decl({name: 'test-server'}, null, {
         return Vow.fulfill().then(function () {
             var test = block.tests[name];
             if (test) {
-                return Vow.promise(test()).then(function () {
-                    return {};
+                return Vow.promise(test()).then(function (res) {
+                    return res || {};
                 });
             } else {
                 return Vow.reject(new CommonError('Unknown test'));
@@ -49,6 +49,57 @@ BEM.decl({name: 'test-server'}, null, {
             expect(model).to.be.instanceof(BEM.Model);
             expect(BEM.blocks['model'].getOne()).to.be.equal(model);
             delete BEM.blocks['model'];
+        },
+
+        'should end calculation': function () {
+            var calcCount = 0;
+
+            BEM.Model.decl('model', {
+                attributes: {
+                    a: {
+                        type: 'Object',
+                        calculate: function () {
+                            if (calcCount > 100) {
+                                return undefined;
+                            }
+
+                            calcCount++;
+
+                            return this.value;
+                        },
+                        default: 'a-default'
+                    },
+
+                    b: {
+                        type: 'String',
+                        calculate: function () {
+                            return 'b-calculate';
+                        }
+                    }
+                },
+
+                storage: {
+                    find: function () {
+                        return Vow.fulfill().delay(0).then(function () {
+                            return {
+                                a: 'a-set',
+                                b: 'b-set',
+                            };
+                        });
+                    }
+                }
+            });
+
+            var model = BEM.blocks['model'].create();
+            model.fetch().done();
+
+            return model.ready().then(function () {
+                delete BEM.blocks['model'];
+
+                return {
+                    calcCount: calcCount
+                };
+            });
         }
     }
 });
