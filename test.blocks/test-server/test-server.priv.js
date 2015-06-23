@@ -57,7 +57,7 @@ BEM.decl({name: 'test-server'}, null, {
             BEM.Model.decl('model', {
                 attributes: {
                     a: {
-                        type: 'Object',
+                        type: 'String',
                         calculate: function () {
                             if (calcCount > 100) {
                                 return undefined;
@@ -91,15 +91,11 @@ BEM.decl({name: 'test-server'}, null, {
             });
 
             var model = BEM.blocks['model'].create();
-            model.fetch().done();
-
-            return model.ready().then(function () {
+            return model.fetch().then(function () {
+                expect(calcCount).to.be.lte(100);
                 delete BEM.blocks['model'];
-
-                return {
-                    calcCount: calcCount
-                };
             });
+
         }
     }
 });
