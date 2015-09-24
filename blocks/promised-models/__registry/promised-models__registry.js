@@ -20,7 +20,7 @@
                     type = attributeDecl.type,
                     modelType = attributeDecl.modelType,
                     attributeClass;
-                if (attributeDecl instanceof Model.Attribute) {
+                if (typeof attributeDecl === 'function') {
                     //class
                     attributeClass = attributeDecl;
                 } else if (type === 'Model' || type === 'ModelsList') {
