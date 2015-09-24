@@ -12,7 +12,7 @@ function checkfail {
     fi
 }
 
+./node_modules/.bin/enb make
 killall node 2>/dev/null
-node lib/browserify.js
 $BEMNODE & $PHANTOM
 checkfail $?
