@@ -28,7 +28,7 @@
     "start": "node test.app/app/app.server.js --socket 3000"
   },
   "dependencies": {
-    "promised-models": "git@github.com:bem-node/promised-models.git#8aac35d92ea0246ba2c2e37102431b7d3d5e2f73"
+    "promised-models": "git@github.com:bem-node/promised-models.git#2d408b6ae10c9585d63d8614a17e1f7b7b556379"
   },
   "devDependencies": {
     "browserify": "10.2.1",
