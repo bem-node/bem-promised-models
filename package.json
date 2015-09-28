@@ -1,8 +1,8 @@
 {
   "description": "BEM wrapper for promised-models",
   "name": "bem-promised-models",
-  "version": "0.0.23",
-  "repository": "git@github.com:delfrrr/bem-promised-models.git",
+  "version": "0.0.24",
+  "repository": "git@github.com:bem-node/bem-promised-models.git",
   "keywords": [
     "BEM",
     "node",
@@ -20,7 +20,8 @@
     "node": ">= 0.10"
   },
   "files": [
-    "blocks/promised-models/"
+    "blocks/promised-models/",
+    "lib/"
   ],
   "scripts": {
     "postinstall": "node lib/browserify.js",
@@ -28,11 +29,11 @@
     "start": "node test.app/app/app.server.js --socket 3000"
   },
   "dependencies": {
-    "promised-models": "git@github.com:bem-node/promised-models.git#fff5d57a8f6cfb94809eb8458e6693f194a81048"
+    "promised-models": "git@github.com:bem-node/promised-models.git#fff5d57a8f6cfb94809eb8458e6693f194a81048",
+    "browserify": "10.2.1",
+    "literalify": "0.4.0"
   },
   "devDependencies": {
-    "browserify": "10.2.1",
-    "literalify": "0.4.0",
     "bem-node": "0.9.6",
     "chai": "2.3.0",
     "enb": "0.8.48",
