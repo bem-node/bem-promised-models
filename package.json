@@ -29,7 +29,7 @@
     "start": "node test.app/app/app.server.js --socket 3000"
   },
   "dependencies": {
-    "promised-models": "git@github.com:bem-node/promised-models.git#fff5d57a8f6cfb94809eb8458e6693f194a81048",
+    "promised-models": "https://github.com/bem-node/promised-models.git#fff5d57a8f6cfb94809eb8458e6693f194a81048",
     "browserify": "10.2.1",
     "literalify": "0.4.0"
   },
