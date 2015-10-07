@@ -55,6 +55,10 @@ BN.addDecl('test', 'page', {
             beforeEach(function () {
                 BEM.Model.decl('model', {
                     attributes: {
+                        id: {
+                            type: 'Id',
+                            dataType: String
+                        },
                         a: {
                             type: 'String',
                             default: 'a'
@@ -63,6 +67,10 @@ BN.addDecl('test', 'page', {
                 });
                 BEM.Model.decl('other-model', {
                     attributes: {
+                        id: {
+                            type: 'Id',
+                            dataType: String
+                        },
                         a: {
                             type: 'String',
                             default: 'a'
@@ -169,7 +177,7 @@ BN.addDecl('test', 'page', {
                     BEM.Model.decl('model', {
                         attributes: {
                             collection: {
-                                type: 'ModelsList',
+                                type: 'Collection',
                                 modelType: 'nested-model'
                             }
                         }
@@ -177,7 +185,7 @@ BN.addDecl('test', 'page', {
                     var model = BEM.blocks['model'].create({
                         collection: [{a: 'a-1'}]
                     });
-                    expect(model.get('collection').get(0).get('a')).to.be.equal('a-1');
+                    expect(model.get('collection').at(0).get('a')).to.be.equal('a-1');
                 });
 
                 describe('model', function () {
@@ -217,7 +225,7 @@ BN.addDecl('test', 'page', {
                     BEM.Model.decl('model', {
                         attributes: {
                             collection: {
-                                type: 'ModelsList',
+                                type: 'Collection',
                                 modelType: 'nested-model'
                             }
                         }
@@ -225,7 +233,7 @@ BN.addDecl('test', 'page', {
                     var model = BEM.blocks['model'].create({
                         collection: [{a: 'a-2'}]
                     }),
-                    nested = model.get('collection').get(0);
+                    nested = model.get('collection').at(0);
                     expect(BEM.blocks['nested-model'].getOne(nested.cid)).to.be.equal(nested);
                 });
             });
@@ -254,7 +262,7 @@ BN.addDecl('test', 'page', {
                 it('should be able to declare via Model.decl', function () {
                     var model = BEM.blocks['model'].create();
                     return model.save().then(function () {
-                        expect(model.id).to.be.equal(id);
+                        expect(model.getId()).to.be.equal(id);
                     });
                 });
                 it('should be inherited from prev decls', function () {
@@ -267,7 +275,7 @@ BN.addDecl('test', 'page', {
                     });
                     var model = BEM.blocks['model'].create();
                     return model.save().then(function () {
-                        expect(model.id).to.be.equal(id + id);
+                        expect(model.getId()).to.be.equal(id + id);
                     });
                 });
             });

@@ -23,7 +23,7 @@
                 if (typeof attributeDecl === 'function') {
                     //class
                     attributeClass = attributeDecl;
-                } else if (type === 'Model' || type === 'ModelsList') {
+                } else if (type === 'Model' || type === 'ModelsList' || type === 'Collection') {
                     if (!BEM.blocks[modelType]) {
                         throw new Error('Unknown attribute modelType:' + modelType);
                     }
@@ -58,7 +58,7 @@
                 list.splice(index, 1);
             }
             this.__base.apply(this, arguments);
-        },
+        }
 
     }, {
         /**
@@ -83,7 +83,8 @@
          * @return {Model}
          */
         getAny: function (id) {
-            var instance, model = this;
+            var instance, model = this,
+                idAttributeName, data;
             if (arguments.length === 0) {
                 instance = this.getOne();
                 if (!instance) {
@@ -91,10 +92,13 @@
                 }
             } else {
                 instance = Model.getList().filter(function (instance) {
-                    return (instance.id === id) && (instance instanceof model);
+                    return (instance.idAttribute.isEqual(id)) && (instance instanceof model);
                 })[0];
                 if (!instance) {
-                    instance = this.create(id);
+                    idAttributeName = this.getIdAttributeName();
+                    data = {};
+                    data[idAttributeName] = id;
+                    instance = this.create(data);
                 }
             }
             return instance;
@@ -102,18 +106,38 @@
 
         /**
          * create model instance
-         * @param  {string|number} [id]
-         * @param  {object} [data]
-         * @return {BEM.Model}
+         * @param  {Object} [data]
+         * @returns {BEM.Model}
          */
-        create: function (id, data) {
-            var instance;
-            if (arguments.length === 1) {
-                instance =  new this(id);
-            } else {
-                instance =  new this(id, data);
-            }
-            return instance;
+        create: function (data) {
+            return new this(data);
+        },
+
+        /**
+         * @returns {String}
+         */
+        getIdAttributeName: function () {
+            var idAttributeName, isIdAttributeDeclared,
+                attributes = this.prototype.attributes || {};
+
+            isIdAttributeDeclared = Object.keys(attributes).some(function (attributeName) {
+                var attributeDecl = attributes[attributeName],
+                    isIdAttribute;
+
+                if (typeof attributeDecl === 'function') {
+                    isIdAttribute = attributeDecl.prototype.isId;
+                } else if (typeof attributeDecl.type === 'string') {
+                    isIdAttribute = attributeDecl.type === 'Id';
+                }
+
+                if (isIdAttribute) {
+                    idAttributeName = attributeName;
+                    return true;
+                }
+                return false;
+            });
+
+            return isIdAttributeDeclared ? idAttributeName : 'id';
         }
     });
 

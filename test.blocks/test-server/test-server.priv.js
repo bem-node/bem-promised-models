@@ -83,7 +83,7 @@ BEM.decl({name: 'test-server'}, null, {
                         return Vow.fulfill().delay(0).then(function () {
                             return {
                                 a: 'a-set',
-                                b: 'b-set',
+                                b: 'b-set'
                             };
                         });
                     }
