@@ -1,14 +1,15 @@
 {
   "description": "BEM wrapper for promised-models",
   "name": "bem-promised-models",
-  "version": "0.0.24",
+  "version": "0.1.0",
   "repository": "git@github.com:bem-node/bem-promised-models.git",
   "keywords": [
     "BEM",
     "node",
     "promised",
     "vow",
-    "models"
+    "models",
+    "collections"
   ],
   "licenses": [
     {
@@ -20,7 +21,7 @@
     "node": ">= 0.10"
   },
   "files": [
-    "blocks/promised-models/",
+    "blocks/promised-models2/",
     "lib/"
   ],
   "scripts": {
@@ -29,7 +30,7 @@
     "start": "node test.app/app/app.server.js --socket 3000"
   },
   "dependencies": {
-    "promised-models": "https://github.com/bem-node/promised-models.git#fff5d57a8f6cfb94809eb8458e6693f194a81048",
+    "promised-models2": "0.1.0",
     "browserify": "10.2.1",
     "literalify": "0.4.0"
   },
