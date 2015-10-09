@@ -1,4 +1,4 @@
-# bem-promised-models
+bem-promised-models [![Build Status](https://travis-ci.org/bem-node/bem-promised-models.svg?branch=master)](https://travis-ci.org/bem-node/bem-promised-models)
 
 BEM wrapper for [promised-models2](https://github.com/bem-node/promised-models)
 
