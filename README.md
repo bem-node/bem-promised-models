@@ -1,6 +1,6 @@
 # bem-promised-models
 
-BEM wrapper for [promised-models](https://github.com/delfrrr/promised-models)
+BEM wrapper for [promised-models2](https://github.com/bem-node/promised-models)
 
 ## Key features
 
@@ -27,7 +27,7 @@ Add deps for promised-models
 })
 ```
 
-For noBEM setups use [promised-models](https://github.com/delfrrr/promised-models)
+For noBEM setups use [promised-models2](https://github.com/bem-node/promised-models)
 
 ## Usage
 
@@ -181,7 +181,7 @@ Get model instance by storage id `model.id`. If no instance with `id` was found,
 
 ### model instance
 
-See [promised-models](https://github.com/delfrrr/promised-models/blob/master/README.md#api-reference-in-progress)
+See [promised-models2](https://github.com/bem-node/promised-models/blob/master/README.md#api-reference-in-progress)
 
 
 
