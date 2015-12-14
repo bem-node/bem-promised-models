@@ -309,7 +309,20 @@ BN.addDecl('test', 'page', {
                     var model1 = BEM.blocks['nested-model'].create(),
                         model2 = BEM.blocks['model'].getAny(id1);
                     expect(model2).to.be.instanceof(BEM.blocks['model']);
-                })
+                });
+                it('should throw error if id attribute have not declared', function () {
+                    var model;
+
+                    expect(function () {
+                        var model = BEM.blocks['nested-model'].getAny(id1);
+                    }).to.throw(/should have declared id attribute/i);
+
+                    model = BEM.blocks['nested-model'].create();
+
+                    expect(function () {
+                        var model = BEM.blocks['nested-model'].getAny(id1);
+                    }).to.throw(/should have declared id attribute/i);
+                });
             });
 
             describe('server storage', function () {

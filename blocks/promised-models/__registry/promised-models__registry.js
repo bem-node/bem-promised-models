@@ -54,8 +54,7 @@
          * @return {Model}
          */
         getAny: function (id) {
-            var instance, model = this,
-                idAttributeName, data;
+            var instance, model = this;
             if (arguments.length === 0) {
                 instance = this.getOne();
                 if (!instance) {
@@ -63,13 +62,22 @@
                 }
             } else {
                 instance = Model.getList().filter(function (instance) {
-                    return instance instanceof model && instance.idAttribute.isEqual(id);
-                })[0];
+                    if (instance instanceof model) {
+                        if (instance.idAttribute) {
+                            return instance.idAttribute.isEqual(id);
+                        } else {
+                            this._throwMissingIdAttribute(instance);
+                        }
+                    }
+                }, this)[0];
+
                 if (!instance) {
-                    idAttributeName = this.getIdAttributeName();
-                    data = {};
-                    data[idAttributeName] = id;
-                    instance = this.create(data);
+                    instance = this.create();
+                    if (instance.idAttribute) {
+                        instance.idAttribute.set(id);
+                    } else {
+                        this._throwMissingIdAttribute(instance);
+                    }
                 }
             }
             return instance;
@@ -85,31 +93,12 @@
         },
 
         /**
-         * @returns {String}
+         * @param {BEM.Model} instance
          */
-        getIdAttributeName: function () {
-            var idAttributeName, isIdAttributeDeclared,
-                attributes = this.prototype.attributes || {};
-
-            isIdAttributeDeclared = Object.keys(attributes).some(function (attributeName) {
-                var attributeDecl = attributes[attributeName],
-                    isIdAttribute;
-
-                if (typeof attributeDecl === 'function') {
-                    isIdAttribute = attributeDecl.prototype.isId;
-                } else if (typeof attributeDecl.type === 'string') {
-                    isIdAttribute = attributeDecl.type === 'Id';
-                }
-
-                if (isIdAttribute) {
-                    idAttributeName = attributeName;
-                    return true;
-                }
-                return false;
-            });
-
-            return isIdAttributeDeclared ? idAttributeName : 'id';
+        _throwMissingIdAttribute: function (instance) {
+            throw new Error('Model "' + instance.blockName + '" should have declared id attribute');
         }
+
     });
 
     /**
@@ -179,7 +168,7 @@
         }, {});
 
         props.blockName = blockName;
-        staticProps.blockName = blockName
+        staticProps.blockName = blockName;
 
         BEM.blocks[blockName] = baseClass.inherit(props, staticProps);
     };
