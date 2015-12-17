@@ -56,6 +56,9 @@ BEM.decl({name: 'test-server'}, null, {
 
             BEM.Model.decl('model', {
                 attributes: {
+                    id: {
+                        type: 'Id'
+                    },
                     a: {
                         type: 'String',
                         calculate: function () {
