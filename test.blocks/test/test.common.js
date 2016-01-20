@@ -159,17 +159,15 @@ BN.addDecl('test', 'page', {
                 });
 
                 it('should throw error when modelType is unknown', function () {
-                    BEM.Model.decl('model', {
-                        attributes: {
-                            nested: {
-                                type: 'Model',
-                                modelType: 'unknown-model'
-                            }
-                        }
-                    });
-                    var model;
                     expect(function () {
-                        model = BEM.blocks['model'].create();
+                        BEM.Model.decl('model', {
+                            attributes: {
+                                nested: {
+                                    type: 'Model',
+                                    modelType: 'unknown-model'
+                                }
+                            }
+                        });
                     }).to.throw(/unknown attribute/i);
                 });
 

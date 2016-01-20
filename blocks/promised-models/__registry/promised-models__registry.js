@@ -14,35 +14,6 @@
          * @override
          */
         __constructor: function () {
-            var model = this;
-            this.attributes = Object.keys(this.attributes || {}).reduce(function (attributes, attributeName) {
-                var attributeDecl = model.attributes[attributeName],
-                    type = attributeDecl.type,
-                    modelType = attributeDecl.modelType,
-                    attributeClass;
-                if (typeof attributeDecl === 'function') {
-                    //class
-                    attributeClass = attributeDecl;
-                } else if (type === 'Model' || type === 'ModelsList' || type === 'Collection') {
-                    if (!BEM.blocks[modelType]) {
-                        throw new Error('Unknown attribute modelType:' + modelType);
-                    }
-                    //nested type
-                    attributeClass = Model.attributeTypes[type].inherit(attributeDecl).inherit({
-                        modelType: BEM.blocks[modelType]
-                    });
-                } else if (Model.attributeTypes[type]) {
-                    //common types
-                    attributeClass = Model.attributeTypes[type].inherit(attributeDecl);
-                } else if (BEM.blocks[type]) {
-                    //custom type
-                    attributeClass = BEM.blocks[type].inherit(attributeDecl);
-                } else {
-                    throw new Error('Unknown attribute type:' + type);
-                }
-                attributes[attributeName] = attributeClass;
-                return attributes;
-            }, {});
             this.cid = jQuery.identify();
             Model.getList().push(this);
             this.__base.apply(this, arguments);
@@ -149,7 +120,7 @@
      * @param  {Object} [staticProps]
      */
     Model.decl = function (blockName, baseBlock, props, staticProps) {
-        var baseClass,
+        var baseClass, attributes, attributesDecl,
             baseStorageClass;
 
         if (typeof baseBlock !== 'string') {
@@ -159,6 +130,7 @@
         }
 
         props = props || {};
+        staticProps = staticProps || {};
 
         if (BEM.blocks[blockName]) {
             baseClass = BEM.blocks[blockName];
@@ -174,11 +146,42 @@
             props.storage = baseStorageClass.inherit(props.storage);
         }
 
-        BEM.blocks[blockName] = baseClass.inherit(props, staticProps).inherit({
-            blockName: blockName,
-            attributes: jQuery.extend({}, baseClass.prototype.attributes || {}, props.attributes || {})
-        });
+        attributesDecl = jQuery.extend({}, baseClass.prototype.attributes || {}, props.attributes || {});
 
+        props.attributes = Object.keys(attributesDecl).reduce(function (result, attrName) {
+            var attributeDecl = attributesDecl[attrName],
+                type = attributeDecl.type,
+                modelType = attributeDecl.modelType,
+                attributeClass;
+
+            if (typeof attributeDecl === 'function') {
+                //class
+                attributeClass = attributeDecl;
+            } else if (type === 'Model' || type === 'ModelsList' || type === 'Collection') {
+                if (!BEM.blocks[modelType]) {
+                    throw new Error('Unknown attribute modelType:' + modelType);
+                }
+                //nested type
+                attributeClass = Model.attributeTypes[type].inherit(attributeDecl).inherit({
+                    modelType: BEM.blocks[modelType]
+                });
+            } else if (Model.attributeTypes[type]) {
+                //common types
+                attributeClass = Model.attributeTypes[type].inherit(attributeDecl);
+            } else if (BEM.blocks[type]) {
+                //custom type
+                attributeClass = BEM.blocks[type].inherit(attributeDecl);
+            } else {
+                throw new Error('Unknown attribute type:' + type);
+            }
+            result[attrName] = attributeClass;
+            return result;
+        }, {});
+
+        props.blockName = blockName;
+        staticProps.blockName = blockName
+
+        BEM.blocks[blockName] = baseClass.inherit(props, staticProps);
     };
 
     /**
