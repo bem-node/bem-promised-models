@@ -305,6 +305,11 @@ BN.addDecl('test', 'page', {
                         model2 = BEM.blocks['other-model'].getAny(id1);
                     expect(model1).to.be.not.equal(model2);
                 });
+                it('should work correctly with models without ids', function () {
+                    var model1 = BEM.blocks['nested-model'].create(),
+                        model2 = BEM.blocks['model'].getAny(id1);
+                    expect(model2).to.be.instanceof(BEM.blocks['model']);
+                })
             });
 
             describe('server storage', function () {
