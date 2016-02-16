@@ -63,7 +63,7 @@
                 }
             } else {
                 instance = Model.getList().filter(function (instance) {
-                    return (instance.idAttribute.isEqual(id)) && (instance instanceof model);
+                    return instance instanceof model && instance.idAttribute.isEqual(id);
                 })[0];
                 if (!instance) {
                     idAttributeName = this.getIdAttributeName();
