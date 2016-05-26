@@ -86,10 +86,11 @@
         /**
          * create model instance
          * @param  {Object} [data]
+         * @param {Object} [options]
          * @returns {BEM.Model}
          */
-        create: function (data) {
-            return new this(data);
+        create: function (data, options) {
+            return new this(data, options);
         },
 
         /**
