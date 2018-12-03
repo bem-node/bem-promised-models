@@ -1,7 +1,7 @@
 {
   "description": "BEM wrapper for promised-models",
   "name": "bem-promised-models",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "repository": "git@github.com:bem-node/bem-promised-models.git",
   "keywords": [
     "BEM",
